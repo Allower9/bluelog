@@ -20,7 +20,7 @@ jobs:
           python-version: '3.10'
       
       - name: Run Python script
-        run: wsgi.py
-      # - name: Run Python script
-       # run: tests/test_basic.py
+        run: python wsgi.py
+      - name: Run Python script
+        run: python tests/test_basic.py
   
