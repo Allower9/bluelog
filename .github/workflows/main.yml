@@ -11,16 +11,16 @@ jobs:
 
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5 
+    
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12' 
+      - run: python my_script.py
       
-      - name: Run Python script
-        run: python wsgi.py
-      - name: Run Python script
+      - name: Run Python script2
         run: python tests/test_basic.py
+      - name: Run Python script1
+        run: python wsgi.py
   
