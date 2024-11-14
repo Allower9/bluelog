@@ -1,6 +1,6 @@
 name: test
 
-on: pull_request
+on: [push, workflow_dispatch]
 
 jobs:
   linting:
@@ -87,4 +87,4 @@ jobs:
           source .venv/bin/activate
           pytest tests/
           coverage report
-          
+      #ee
