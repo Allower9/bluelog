@@ -36,3 +36,4 @@ jobs:
                   cd webapp && source venv/bin/activate
                   poetry run coverage run webapp/tests.py
                   poetry run coverage report
+                  
