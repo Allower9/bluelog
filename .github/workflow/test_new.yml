@@ -1,0 +1,38 @@
+on:
+    push:
+        tags:
+            - '!refs/tags/*'
+        branches:
+            - '*'
+jobs:
+    run_tests:
+        runs-on: [ubuntu-latest]
+        steps:
+            - uses: actions/checkout@master
+            - uses: actions/setup-python@v1
+              with:
+                  python-version: '3.12'
+                  architecture: 'x64'
+            - name: Установить Poetry
+              uses: snok/install-poetry@v1
+              with:
+                  virtualenvs-create: true
+                  virtualenvs-in-project: true
+                  virtualenvs-path: .venv
+                  installer-parallel: true
+            - name: Загрузить кэш venv
+              id: cached-poetry-dependencies 
+              uses: actions/cache@v4
+              with:
+                  path: .venv
+                  key: venv-${{ runner.os }}-python-3.12  # Используем фиксированное значение версии Python
+            - name: Установить зависимости
+              if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true' 
+              run: cd webapp && poetry install --no-interaction --no-root
+            - name: Установить проект
+              run: cd webapp && poetry install --no-interaction 
+            - name: Запустить тесты
+              run: |
+                  cd webapp && source venv/bin/activate
+                  poetry run coverage run webapp/tests.py
+                  poetry run coverage report
